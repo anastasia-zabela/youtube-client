@@ -27,7 +27,7 @@ class AppView {
   }
 
   renderClipCards() {
-    const oldClips = document.getElementsByTagName('div')[1];
+    const oldClips = document.getElementsByTagName('div')[2];
     if (oldClips !== undefined) {
       document.body.removeChild(oldClips);
     }
