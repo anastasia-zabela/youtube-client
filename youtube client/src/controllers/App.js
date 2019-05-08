@@ -1,21 +1,30 @@
-import AppModel from '../models/AppModel';
+import ClipModel from '../models/AppModel';
 import AppView from '../views/AppView';
 
-export default class App {
-  constructor(url, apiKey, q) {
+class App {
+  constructor(url, apiKey) {
     this.url = url;
     this.apiKey = apiKey;
-    this.q = q;
-    this.finalUrl = `${url}key=${apiKey}&type=video&part=snippet&maxResults=15&q=${q}`;
+    this.finalUrl = `${url}key=${apiKey}&type=video&part=snippet`;
+    this.view = new AppView();
   }
 
-  async start() {
-    const model = new AppModel(this.finalUrl);
-    const data = await model.getClipNames();
+  start() {
+    this.view.startRender();
+  }
+
+  async processUserRequest(query, numOfItems) {
+    const queryUrl = `${this.finalUrl}&q=${query}&maxResults=${numOfItems}`;
+    const model = new ClipModel(queryUrl);
+    const data = await model.getClipData();
+    this.view.setData = data;
+    this.view.renderClipCards();
     global.console.log(await data);
+  }
 
-    const view = new AppView(data);
-
-    view.render();
+  viewClipCards() {
+    this.view.renderClipCards();
   }
 }
+
+export default App;

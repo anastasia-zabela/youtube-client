@@ -1,18 +1,24 @@
-export default class AppModel {
-  constructor(state) {
-    this.state = state;
+class ClipModel {
+  constructor(queryUrl) {
+    this.url = queryUrl;
   }
 
   static exstractClipNames(data) {
     return data.items.map(clip => clip.snippet.title);
   }
 
-  async getClipNames() {
-    const finalUrl = this.state;
+  async getClipData() {
+    const finalUrl = this.url;
 
     const response = await fetch(finalUrl);
-    const data = await response.json();
+    const requestData = await response.json();
 
-    return AppModel.exstractClipNames(data);
+    const data = {
+      title: ClipModel.exstractClipNames(requestData),
+    };
+
+    return data;
   }
 }
+
+export default ClipModel;
