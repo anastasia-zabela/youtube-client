@@ -2,10 +2,12 @@ import ClipModel from '../models/AppModel';
 import AppView from '../views/AppView';
 
 class App {
-  constructor(url, apiKey) {
-    this.url = url;
+  constructor(urlSearch, urlView, apiKey) {
+    this.urlSearch = urlSearch;
+    this.urlView = urlView;
     this.apiKey = apiKey;
-    this.finalUrl = `${url}key=${apiKey}&type=video&part=snippet`;
+    this.finalUrlForSearch = `${urlSearch}key=${apiKey}&type=video&part=snippet`;
+    this.finalUrlForViews = `${urlView}key=${apiKey}&part=snippet,statistics`;
     this.view = new AppView();
   }
 
@@ -14,8 +16,8 @@ class App {
   }
 
   async processUserRequest(query, numOfItems) {
-    const queryUrl = `${this.finalUrl}&q=${query}&maxResults=${numOfItems}`;
-    const model = new ClipModel(queryUrl);
+    const queryUrl = `${this.finalUrlForSearch}&q=${query}&maxResults=${numOfItems}`;
+    const model = new ClipModel(queryUrl, this.finalUrlForViews);
     const data = await model.getClipData();
     this.view.setData = data;
     this.view.renderClipCards();
