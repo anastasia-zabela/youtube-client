@@ -1,6 +1,17 @@
 body {
   font-family: 'Muli', Helvetica, sans-serif;
   background: #e0ddd8;
+  overflow-x: hidden;
+}
+
+button {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  background: #eee;
+  border: #9c4e4e 2px solid;
+  border-radius: 20px;
+  outline: none;
 }
 
 .search {
@@ -26,13 +37,15 @@ input {
 .clips-contain {
   display: grid;
   grid-template-columns: repeat(15, 1fr);
-  grid-gap: 30px;
+  width: calc(var(--n)*100%);
+	transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--n)*-100%));
 }
 
 .clips-contain__clip {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
   width: 320px;
   height: 610px;
   padding: 30px;
@@ -58,6 +71,8 @@ h3 {
   display: inline-block;
   padding: 10px;
   height: 120px;
+  width: 300px;
+  overflow: hidden;
   font-size: 18px;
   font-weight: normal;
   font-style: italic;
@@ -74,8 +89,29 @@ h4 {
   grid-template: 1fr 1fr / 1fr 3fr;
 }
 
+.slider-contain {
+  display: grid;
+  grid-template: 1fr / repeat(4, 1fr);
+  width: 160px;
+  margin: 25px auto;
+}
+
+.slider__current-page {
+  grid-column: 3 / 4;
+  background: #9c4e4e;
+  color: #eee;
+}
+
+.slider__prev-page {
+  grid-column: 2 / 3;
+}
+
 .fas {
   margin: auto;
+}
+
+.smooth {
+  transition: transform .5s ease-out;
 }
 
 @font-face {

@@ -13,7 +13,7 @@ class ClipModel {
   }
 
   static exstractClipDescriptions(data) {
-    return data.items.map(clip => clip.snippet.description);
+    return data.items.map(clip => clip.snippet.description || 'No description');
   }
 
   static exstractClipAuthor(data) {

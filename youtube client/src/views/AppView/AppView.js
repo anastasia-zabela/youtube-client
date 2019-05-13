@@ -2,10 +2,15 @@
 class AppView {
   constructor() {
     this.data = [];
+    this.indexClips = 0;
   }
 
   set setData(data) {
     this.data = data;
+  }
+
+  set setIndex(index) {
+    this.indexClips = index;
   }
 
   startRender() {
@@ -24,16 +29,17 @@ class AppView {
     search.appendChild(loupe);
     search.appendChild(input);
     document.body.appendChild(search);
+    this.search = search;
   }
 
   renderClipCards() {
-    const oldClips = document.getElementsByTagName('div')[2];
+    const oldClips = document.getElementsByClassName('clips-contain')[0];
     if (oldClips !== undefined) {
       document.body.removeChild(oldClips);
     }
     const newClips = document.createElement('div');
     newClips.classList.add('clips-contain');
-    document.body.appendChild(newClips);
+    this.search.insertAdjacentElement('afterend', newClips);
     for (let i = 0; i < 15; i += 1) {
       const clip = document.createElement('div');
       const title = document.createElement('a');
@@ -48,14 +54,14 @@ class AppView {
       const iconView = document.createElement('div');
       clip.classList.add('clips-contain__clip');
       clipInfo.classList.add('clips-contain__clip-info');
-      title.innerText = this.data.title[i];
+      title.innerHTML = this.data.title[i];
       title.setAttribute('href', this.data.url[i]);
       title.setAttribute('target', '_block');
       picture.setAttribute('src', this.data.picture[i]);
-      descr.innerText = this.data.description[i];
-      author.innerText = this.data.author[i];
-      date.innerText = this.data.date[i].slice(0, 10);
-      views.innerText = this.data.views[i];
+      descr.innerHTML = this.data.description[i];
+      author.innerHTML = this.data.author[i];
+      date.innerHTML = this.data.date[i].slice(0, 10);
+      views.innerHTML = this.data.views[i];
       iconDate.classList.add('fas');
       iconAuthor.classList.add('fas');
       iconView.classList.add('fas');
@@ -73,7 +79,40 @@ class AppView {
       clipInfo.appendChild(views);
       clip.appendChild(clipInfo);
       newClips.appendChild(clip);
+      this.clips = newClips;
     }
+  }
+
+  renderPageButtons() {
+    const oldSlider = document.getElementsByClassName('slider-contain')[0];
+    if (oldSlider !== undefined) {
+      document.body.removeChild(oldSlider);
+    }
+    const slider = document.createElement('div');
+    const prevPrevNumPage = document.createElement('button');
+    const prevNumPage = document.createElement('button');
+    const numPage = document.createElement('button');
+    const nextNumPage = document.createElement('button');
+
+    slider.classList.add('slider-contain');
+    numPage.classList.add('slider__current-page');
+    prevNumPage.classList.add('slider__prev-page');
+    prevPrevNumPage.classList.add('slider__prev-prev-page');
+
+    numPage.innerText = 1;
+
+    slider.appendChild(numPage);
+    slider.appendChild(nextNumPage);
+
+    document.body.appendChild(slider);
+
+    this.slider = slider;
+    this.sliderBtn = {
+      prevPrevNumPage,
+      prevNumPage,
+      numPage,
+      nextNumPage,
+    };
   }
 }
 
