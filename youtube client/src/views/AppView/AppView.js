@@ -3,6 +3,7 @@ class AppView {
   constructor() {
     this.data = [];
     this.indexClips = 0;
+    this.clips = null;
   }
 
   set setData(data) {
@@ -32,14 +33,19 @@ class AppView {
     this.search = search;
   }
 
-  renderClipCards() {
+  renderClipContain() {
     const oldClips = document.getElementsByClassName('clips-contain')[0];
     if (oldClips !== undefined) {
       document.body.removeChild(oldClips);
     }
     const newClips = document.createElement('div');
     newClips.classList.add('clips-contain');
-    this.search.insertAdjacentElement('afterend', newClips);
+    this.clips = newClips;
+    this.search.insertAdjacentElement('afterend', this.clips);
+    this.renderClipCards();
+  }
+
+  renderClipCards() {
     for (let i = 0; i < 15; i += 1) {
       const clip = document.createElement('div');
       const title = document.createElement('a');
@@ -78,8 +84,7 @@ class AppView {
       clipInfo.appendChild(iconView);
       clipInfo.appendChild(views);
       clip.appendChild(clipInfo);
-      newClips.appendChild(clip);
-      this.clips = newClips;
+      this.clips.appendChild(clip);
     }
   }
 

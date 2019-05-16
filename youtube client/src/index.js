@@ -10,6 +10,6 @@ app.start();
 
 const inputRequest = document.getElementsByTagName('input')[0];
 const getUserRequest = () => {
-  app.processUserRequest(inputRequest.value, 15);
+  app.processUserRequest(inputRequest.value);
 };
 inputRequest.addEventListener('input', getUserRequest);

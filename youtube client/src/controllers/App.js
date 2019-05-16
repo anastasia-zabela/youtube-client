@@ -6,24 +6,66 @@ class App {
     this.urlSearch = urlSearch;
     this.urlView = urlView;
     this.apiKey = apiKey;
-    this.finalUrlForSearch = `${urlSearch}key=${apiKey}&type=video&part=snippet`;
+    this.finalUrlForSearch = `${urlSearch}key=${apiKey}&type=video&part=snippet&maxResults=15`;
     this.finalUrlForViews = `${urlView}key=${apiKey}&part=snippet,statistics`;
     this.view = new AppView();
+    this.tokens = {};
   }
 
   start() {
     this.view.startRender();
   }
 
-  async processUserRequest(query, numOfItems) {
-    const queryUrl = `${this.finalUrlForSearch}&q=${query}&maxResults=${numOfItems}`;
+  set setQuery(query) {
+    this.query = query;
+  }
+
+  set setPageToken(token) {
+    this.nextPageToken = token;
+  }
+
+  set setCountPage(page) {
+    this.countPage = page;
+  }
+
+  async processUserRequest(query) {
+    this.setQuery = query;
+    const queryUrl = `${this.finalUrlForSearch}&q=${this.query}`;
     const model = new ClipModel(queryUrl, this.finalUrlForViews);
     const data = await model.getClipData();
+    const { nextPageToken } = data;
+    this.setPageToken = nextPageToken;
     this.view.setData = data;
-    this.view.renderClipCards();
+    this.view.renderClipContain();
+    this.getCountPage();
     this.view.renderPageButtons();
     this.addScrolling();
-    global.console.log(await data);
+  }
+
+  async reprocessUserRequest() {
+    const queryUrl = `${this.finalUrlForSearch}&q=${this.query}&pageToken=${this.nextPageToken}`;
+    const model = new ClipModel(queryUrl, this.finalUrlForViews);
+    const data = await model.getClipData();
+    this.setPageToken = data.nextPageToken;
+    this.view.setData = data;
+    this.view.clips.classList.remove('smooth');
+    this.view.renderClipCards();
+    this.getCountPage();
+  }
+
+  static bind(func, context) {
+    return function a() {
+      return func.apply(context);
+    };
+  }
+
+  getCountPage() {
+    const countClips = this.view.clips.children.length;
+    const countPage = this.view.clips.children.length / 4;
+    this.setCountPage = countPage;
+    this.view.clips.style.setProperty('--n', countPage);
+    this.view.clips.style.setProperty('--c', countClips);
+    return countPage;
   }
 
   addScrolling() {
@@ -36,12 +78,17 @@ class App {
     const { slider } = this.view;
     const { clips } = this.view;
 
-    const countPage = this.view.clips.children.length / 4;
-    this.view.clips.style.setProperty('--n', countPage);
+    function getCurrentCountPage() {
+      const countPage = document.querySelector('.clips-contain').children.length / 4;
+      return countPage;
+    }
 
     let clickX = null;
     let locked = false;
     let indexClips = 0;
+    const chekRepeatToken = [];
+
+    const handleReload = App.bind(this.reprocessUserRequest, this);
 
     function handleTouchEvent(e) {
       return e.changedTouches ? e.changedTouches[0] : e;
@@ -60,7 +107,8 @@ class App {
       }
     }
 
-    function getCurrentPage(sign) {
+    function getCurrentPage(sign, lockeds, countPage) {
+      locked = lockeds;
       if ((indexClips > 0 || sign < 0) && (indexClips < countPage - 1 || sign > 0)) {
         indexClips -= sign;
         const index = indexClips;
@@ -90,14 +138,21 @@ class App {
       }
       clips.style.setProperty('--tx', '0px');
       clips.classList.toggle('smooth', !(locked = false));
+      return indexClips;
     }
 
     function handleMouseUp(e) {
       if (locked) {
         const difClickX = handleTouchEvent(e).clientX - clickX;
         const sign = Math.sign(difClickX);
+        const currentCountPage = getCurrentCountPage();
+        const reloadPage = Math.floor(currentCountPage);
 
-        getCurrentPage(sign, locked);
+        const index = getCurrentPage(sign, locked, currentCountPage);
+        if (index + 1 === reloadPage && !chekRepeatToken.includes(reloadPage)) {
+          chekRepeatToken.push(reloadPage);
+          handleReload();
+        }
       }
     }
 
@@ -120,8 +175,14 @@ class App {
     function getNextPage() {
       locked = true;
       const sign = -1;
+      const currentCountPage = getCurrentCountPage();
+      const reloadPage = Math.floor(currentCountPage);
 
-      getCurrentPage(sign, locked);
+      const index = getCurrentPage(sign, locked, currentCountPage);
+      if (index + 1 === reloadPage && !chekRepeatToken.includes(reloadPage)) {
+        chekRepeatToken.push(reloadPage);
+        handleReload();
+      }
     }
 
     clips.addEventListener('mousedown', handleMousedown);

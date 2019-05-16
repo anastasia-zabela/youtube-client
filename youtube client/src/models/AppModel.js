@@ -32,6 +32,10 @@ class ClipModel {
     return data.items.map(clip => `https://www.youtube.com/watch?v=${clip.id.videoId}`);
   }
 
+  static exstractNextPageToken(data) {
+    return data.nextPageToken;
+  }
+
   async exstractClipViews(data) {
     const videoId = data.items.map(clip => clip.id.videoId).join(',');
     const finalUrl = `${this.urlViews}&id=${videoId}`;
@@ -58,6 +62,7 @@ class ClipModel {
       videoId: ClipModel.exstractClipId(requestData),
       url: ClipModel.exstractClipUrl(requestData),
       views: await this.exstractClipViews(requestData),
+      nextPageToken: ClipModel.exstractNextPageToken(requestData),
     };
 
     return data;
