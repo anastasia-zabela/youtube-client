@@ -15,6 +15,10 @@ class AppView {
   }
 
   startRender() {
+    const meta = document.createElement('meta');
+    meta.setAttribute('content', 'width=device-width, initial-scale=1');
+    meta.setAttribute('name', 'viewport');
+    document.head.appendChild(meta);
     const link = document.createElement('link');
     link.setAttribute('rel', 'stylesheet');
     link.setAttribute('href', 'https://use.fontawesome.com/releases/v5.8.2/css/all.css');
