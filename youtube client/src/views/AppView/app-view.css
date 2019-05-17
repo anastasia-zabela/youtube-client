@@ -9,9 +9,13 @@ button {
   height: 30px;
   margin: 0 auto;
   background: #eee;
-  border: #9c4e4e 2px solid;
+  border: #7ca095 2px solid;
   border-radius: 20px;
   outline: none;
+}
+
+button:hover {
+  background: #7ca095;
 }
 
 .search {
@@ -38,7 +42,8 @@ input {
   display: grid;
   grid-template-columns: repeat(var(--c, 0), 1fr);
   width: calc(var(--n)*100%);
-	transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--n)*-100%));
+  transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--n)*-100%));
+  cursor: grab;
 }
 
 .clips-contain__clip {
@@ -53,6 +58,12 @@ input {
   box-sizing: border-box;
   background: #eee;
   border-radius: 10px;
+  transition: transform .4s ease-out;
+}
+
+.clips-contain__clip:hover {
+  transform: scale(1.05);
+  transition: transform .4s ease-out;
 }
 
 img {
@@ -72,12 +83,12 @@ a {
   font-size: 23px;
   font-weight: bold;
   text-decoration: none;
-  background: #9c4e4e99;
+  background: #7ca095a6;
   color: white;
 }
 
 a:hover {
-  background: #9c4e4e;
+  background: #7ca095;
 }
 
 h3 {
@@ -101,23 +112,77 @@ h4 {
 .clips-contain__clip-info {
   display: grid;
   grid-template: 1fr 1fr / 1fr 5fr;
+  max-width: 300px;
+  max-height: 123px;
 }
 
 .slider-contain {
   display: grid;
   grid-template: 1fr / repeat(4, 1fr);
   width: 160px;
-  margin: 25px auto;
+  margin: 60px auto;
 }
 
-.slider__current-page {
-  grid-column: 3 / 4;
-  background: #9c4e4e;
+.slider__prev-prev-page:after {
+  content: attr(data-num-page);
+  position: absolute;
+  top: -150%;
+  left: -6%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: inherit;
+  background: #7ca095b5;
+  border-radius: inherit;
   color: #eee;
 }
 
 .slider__prev-page {
   grid-column: 2 / 3;
+}
+
+.slider__prev-page:after {
+  content: attr(data-num-page);
+  position: absolute;
+  top: -150%;
+  left: -6%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: inherit;
+  background: #7ca095b5;
+  border-radius: inherit;
+  color: #eee;
+}
+
+.slider__current-page {
+  grid-column: 3 / 4;
+  background: #7ca095;
+  color: #eee;
+}
+
+.slider__next-page:after {
+  content: attr(data-num-page);
+  position: absolute;
+  top: -150%;
+  left: -6%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: inherit;
+  background: #7ca095b5;
+  border-radius: inherit;
+  color: #eee;
+}
+
+.tooltip {
+  position: relative;
 }
 
 .fas {

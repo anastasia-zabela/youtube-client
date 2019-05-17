@@ -26,6 +26,7 @@ class AppView {
     link.setAttribute('crossorigin', 'anonymous');
     document.head.appendChild(link);
     const input = document.createElement('input');
+    input.setAttribute('placeholder', 'What do you want to find?');
     const loupe = document.createElement('div');
     const search = document.createElement('div');
     search.classList.add('search');
@@ -107,8 +108,10 @@ class AppView {
     numPage.classList.add('slider__current-page');
     prevNumPage.classList.add('slider__prev-page');
     prevPrevNumPage.classList.add('slider__prev-prev-page');
+    nextNumPage.classList.add('slider__next-page');
 
     numPage.innerText = 1;
+    nextNumPage.setAttribute('data-num-page', 2);
 
     slider.appendChild(numPage);
     slider.appendChild(nextNumPage);

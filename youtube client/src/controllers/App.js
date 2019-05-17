@@ -14,6 +14,11 @@ class App {
 
   start() {
     this.view.startRender();
+    const inputRequest = document.getElementsByTagName('input')[0];
+    const getUserRequest = () => {
+      this.processUserRequest(inputRequest.value);
+    };
+    inputRequest.addEventListener('input', getUserRequest);
   }
 
   set setQuery(query) {
@@ -82,17 +87,29 @@ class App {
     const { slider } = this.view;
     const { clips } = this.view;
 
+    const chekRepeatToken = [];
+    let clickX = null;
+    let locked = false;
+    let indexClips = 0;
+    let dataPrevPrevPage = 0;
+    let dataPrevPage = 0;
+    let dataCurrentPage = 0;
+    let dataNextPage = 0;
+
+    const handleReload = App.bind(this.reprocessUserRequest, this);
+
+    function addTooltip() {
+      this.classList.add('tooltip');
+    }
+
+    function removeTooltip() {
+      this.classList.remove('tooltip');
+    }
+
     function getCurrentCountPage() {
       const countPage = document.querySelector('.clips-contain').children.length / 4;
       return countPage;
     }
-
-    let clickX = null;
-    let locked = false;
-    let indexClips = 0;
-    const chekRepeatToken = [];
-
-    const handleReload = App.bind(this.reprocessUserRequest, this);
 
     function handleTouchEvent(e) {
       return e.changedTouches ? e.changedTouches[0] : e;
@@ -117,7 +134,11 @@ class App {
         indexClips -= sign;
         const index = indexClips;
         clips.style.setProperty('--i', index);
-        numPage.innerText = index + 1;
+        dataCurrentPage = index + 1;
+        numPage.innerText = dataCurrentPage;
+        dataPrevPrevPage = dataCurrentPage - 2;
+        dataPrevPage = dataCurrentPage - 1;
+        dataNextPage = dataCurrentPage + 1;
 
         if (index === 0 && sign > 0) {
           if (document.getElementsByClassName('slider__prev-page')[0]) {
@@ -142,6 +163,9 @@ class App {
       }
       clips.style.setProperty('--tx', '0px');
       clips.classList.toggle('smooth', !(locked = false));
+      prevPrevNumPage.setAttribute('data-num-page', dataPrevPrevPage);
+      prevNumPage.setAttribute('data-num-page', dataPrevPage);
+      nextNumPage.setAttribute('data-num-page', dataNextPage);
       return indexClips;
     }
 
@@ -201,6 +225,14 @@ class App {
     prevPrevNumPage.addEventListener('click', getPrevPrevPage);
     prevNumPage.addEventListener('click', getPrevPage);
     nextNumPage.addEventListener('click', getNextPage);
+
+    prevPrevNumPage.addEventListener('mousedown', addTooltip);
+    prevNumPage.addEventListener('mousedown', addTooltip);
+    nextNumPage.addEventListener('mousedown', addTooltip);
+
+    prevPrevNumPage.addEventListener('mouseup', removeTooltip);
+    prevNumPage.addEventListener('mouseup', removeTooltip);
+    nextNumPage.addEventListener('mouseup', removeTooltip);
   }
 }
 
