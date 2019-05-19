@@ -68,10 +68,12 @@ class App {
     const countClips = this.view.clips.children.length;
     const countPage = this.view.clips.children.length / 4;
     const countPageForTab = this.view.clips.children.length / 3;
+    const countPageForTab2 = this.view.clips.children.length / 2;
     const countPageForMobil = this.view.clips.children.length / 1;
     this.setCountPage = countPage;
     this.view.clips.style.setProperty('--n', countPage);
     this.view.clips.style.setProperty('--p', countPageForTab);
+    this.view.clips.style.setProperty('--pm', countPageForTab2);
     this.view.clips.style.setProperty('--m', countPageForMobil);
     this.view.clips.style.setProperty('--c', countClips);
     return countPage;

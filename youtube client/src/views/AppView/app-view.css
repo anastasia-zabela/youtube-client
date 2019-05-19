@@ -59,6 +59,8 @@ input {
   background: #eee;
   border-radius: 10px;
   transition: transform .4s ease-out;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 .clips-contain__clip:hover {
@@ -210,6 +212,12 @@ h4 {
 }
 
 @media screen and (max-width: 1400px) {
+  *:hover {
+    transform: none;
+    transition: none;
+    -webkit-user-select: none;
+  }
+
   .search {
     margin: 20px auto;
   }
@@ -233,6 +241,13 @@ h4 {
     height: 170px;
     padding: 15px;
     font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .clips-contain {
+    width: calc(var(--pm)*100%);
+	  transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--pm)*-100%));
   }
 }
 
