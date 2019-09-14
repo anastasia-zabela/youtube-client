@@ -1,0 +1,268 @@
+body, html {
+  font-family: 'Muli', Helvetica, sans-serif;
+  background: #e0ddd8;
+  overflow-x: hidden;
+}
+
+button {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  background: #eee;
+  border: #7ca095 2px solid;
+  border-radius: 20px;
+  outline: none;
+}
+
+button:hover {
+  background: #7ca095;
+}
+
+.search {
+  display: flex;
+  width: 600px;
+  height: 40px;
+  margin: 40px auto;
+  padding: 0 25px;
+  background: #eee;
+  border: 0;
+  border-radius: 25px;
+}
+
+input {
+  width: 100%;
+  padding-left: 20px;
+  font-size: 1.2rem;
+  background: inherit;
+  border: none;
+  outline: none;
+}
+
+.clips-contain {
+  display: grid;
+  grid-template-columns: repeat(var(--c, 0), 1fr);
+  width: calc(var(--n)*100%);
+  transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--n)*-100%));
+  cursor: grab;
+}
+
+.clips-contain__clip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  width: 400px;
+  height: 600px;
+  padding: 30px 0;
+  box-sizing: border-box;
+  background: #eee;
+  border-radius: 10px;
+  transition: transform .4s ease-out;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.clips-contain__clip:hover {
+  transform: scale(1.05);
+  transition: transform .4s ease-out;
+}
+
+img {
+  width: 100%;
+}
+
+a {
+  position: absolute;
+  top: 13%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 120px;
+  padding: 20px 20px;
+  overflow: hidden;
+  font-size: 23px;
+  font-weight: bold;
+  text-decoration: none;
+  background: #7ca095a6;
+  color: white;
+}
+
+a:hover {
+  background: #7ca095;
+}
+
+h3 {
+  display: inline-block;
+  padding: 20px;
+  height: 140px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: italic;
+  background: #e4e4e4;
+}
+
+h4 {
+  margin: 8px 0;
+  font-size: 20px;
+}
+
+.clips-contain__clip-info {
+  display: grid;
+  grid-template: 1fr 1fr / 1fr 5fr;
+  max-width: 300px;
+  max-height: 123px;
+}
+
+.slider-contain {
+  display: grid;
+  grid-template: 1fr / repeat(4, 1fr);
+  width: 160px;
+  margin: 60px auto;
+}
+
+.slider__prev-prev-page:after {
+  content: attr(data-num-page);
+  position: absolute;
+  top: -150%;
+  left: -6%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: inherit;
+  background: #7ca095b5;
+  border-radius: inherit;
+  color: #eee;
+}
+
+.slider__prev-page {
+  grid-column: 2 / 3;
+}
+
+.slider__prev-page:after {
+  content: attr(data-num-page);
+  position: absolute;
+  top: -150%;
+  left: -6%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: inherit;
+  background: #7ca095b5;
+  border-radius: inherit;
+  color: #eee;
+}
+
+.slider__current-page {
+  grid-column: 3 / 4;
+  background: #7ca095;
+  color: #eee;
+}
+
+.slider__next-page:after {
+  content: attr(data-num-page);
+  position: absolute;
+  top: -150%;
+  left: -6%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  height: inherit;
+  background: #7ca095b5;
+  border-radius: inherit;
+  color: #eee;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.fas {
+  margin: auto;
+}
+
+.smooth {
+  transition: transform .5s ease-out;
+}
+
+@font-face {
+  font-family: 'Muli';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Muli Italic'), local('Muli-Italic'), url(https://fonts.gstatic.com/s/muli/v13/7Au-p_0qiz-afTf2LwLT.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Muli';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Muli Regular'), local('Muli-Regular'), url(https://fonts.gstatic.com/s/muli/v13/7Auwp_0qiz-afTLGLQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@media screen and (max-width: 1400px) {
+  *:hover {
+    transform: none;
+    transition: none;
+    -webkit-user-select: none;
+  }
+
+  .search {
+    margin: 20px auto;
+  }
+
+  .clips-contain {
+    width: calc(var(--p)*100%);
+	  transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--p)*-100%));
+  }
+
+  .clips-contain__clip {
+    height: 540px;
+    width: 300px;
+  }
+
+  a {
+    top: 10%;
+    font-size: 20px;
+  }
+
+  h3 {
+    height: 170px;
+    padding: 15px;
+    font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .clips-contain {
+    width: calc(var(--pm)*100%);
+	  transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--pm)*-100%));
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .search {
+    width: 300px;
+    margin: 10px auto;
+  }
+
+  .clips-contain {
+    width: calc(var(--m)*100%);
+	  transform: translate(calc(var(--tx, 0px) + var(--i, 0)/var(--m)*-100%));
+  }
+
+  .slider-contain {
+    margin: 15px auto;
+  }
+}
