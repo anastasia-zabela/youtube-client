@@ -1,0 +1,48 @@
+{
+  "name": "youtube-client",
+  "version": "0.0.1",
+  "description": "rss youtube client task",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "coverage": "coverage",
+    "dev": "webpack-dev-server --mode development --watch",
+    "build": "webpack --mode production",
+    "start": "node src/index.js",
+    "lint": "eslint src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolling-scopes-school/anastasia-zabela-2019Q1.git"
+  },
+  "keywords": [
+    "youtube"
+  ],
+  "author": "Anastasia Zabela <zabela113@mail.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rolling-scopes-school/anastasia-zabela-2019Q1/issues"
+  },
+  "homepage": "https://github.com/rolling-scopes-school/anastasia-zabela-2019Q1#readme",
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.17.2",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^24.8.0",
+    "jest-css-modules": "^2.0.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.1",
+    "webpack-dev-server": "^3.3.1"
+  }
+}
