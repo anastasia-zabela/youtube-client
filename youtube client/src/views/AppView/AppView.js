@@ -1,4 +1,5 @@
-/* eslint-disable class-methods-use-this */
+import $ from 'jquery';
+
 class AppView {
   constructor() {
     this.data = [];
@@ -15,113 +16,86 @@ class AppView {
   }
 
   startRender() {
-    const meta = document.createElement('meta');
-    meta.setAttribute('content', 'width=device-width, initial-scale=1');
-    meta.setAttribute('name', 'viewport');
-    document.head.appendChild(meta);
-    const link = document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('href', 'https://use.fontawesome.com/releases/v5.8.2/css/all.css');
-    link.setAttribute('integrity', 'sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay');
-    link.setAttribute('crossorigin', 'anonymous');
-    document.head.appendChild(link);
-    const input = document.createElement('input');
-    input.setAttribute('placeholder', 'What do you want to find?');
-    input.setAttribute('type', 'text');
-    const loupe = document.createElement('div');
-    const search = document.createElement('div');
-    search.classList.add('search');
-    loupe.classList.add('fas');
-    loupe.classList.add('fa-search');
-    search.appendChild(loupe);
-    search.appendChild(input);
-    document.body.appendChild(search);
+    $('<meta/>', {
+      content: 'width=device-width, initial-scale=1',
+      name: 'viewport',
+    }).appendTo('head');
+    $('<link/>', {
+      rel: 'stylesheet',
+      href: 'https://use.fontawesome.com/releases/v5.8.2/css/all.css',
+      integrity: 'sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay',
+      crossorigin: 'anonymous',
+    }).appendTo('head');
+    const search = $('<div/>')
+      .addClass('search')
+      .appendTo('body');
+    $('<div/>')
+      .addClass('fas fa-search')
+      .appendTo('.search');
+    $('<input/>', {
+      placeholder: 'What do you want to find?',
+      type: 'text',
+    }).appendTo('.search');
     this.search = search;
   }
 
   renderClipContain() {
-    const oldClips = document.getElementsByClassName('clips-contain')[0];
-    if (oldClips !== undefined) {
-      document.body.removeChild(oldClips);
+    if ($('.clips-contain').length) {
+      $('.clips-contain').remove();
     }
-    const oldError = document.getElementsByClassName('error_message')[0];
-    if (oldError !== undefined) {
-      document.body.removeChild(oldError);
+    if ($('.error_message').length) {
+      $('.error_message').remove();
     }
-    const newClips = document.createElement('div');
-    newClips.classList.add('clips-contain');
+    const newClips = $('<div/>')
+      .addClass('clips-contain')
+      .insertAfter(this.search);
     this.clips = newClips;
-    this.search.insertAdjacentElement('afterend', this.clips);
     this.renderClipCards();
   }
 
   renderClipCards() {
     for (let i = 0; i < this.data.author.length; i += 1) {
-      const clip = document.createElement('div');
-      const title = document.createElement('a');
-      const picture = document.createElement('img');
-      const descr = document.createElement('h3');
-      const clipInfo = document.createElement('div');
-      const author = document.createElement('h4');
-      const date = document.createElement('h4');
-      const views = document.createElement('h4');
-      const iconDate = document.createElement('div');
-      const iconAuthor = document.createElement('div');
-      const iconView = document.createElement('div');
-      clip.classList.add('clips-contain__clip');
-      clipInfo.classList.add('clips-contain__clip-info');
-      title.innerHTML = this.data.title[i];
-      title.setAttribute('href', this.data.url[i]);
-      title.setAttribute('target', '_block');
-      picture.setAttribute('src', this.data.picture[i]);
-      descr.innerHTML = this.data.description[i];
-      author.innerHTML = this.data.author[i];
-      date.innerHTML = this.data.date[i].slice(0, 10);
-      views.innerHTML = this.data.views[i];
-      iconDate.classList.add('fas');
-      iconAuthor.classList.add('fas');
-      iconView.classList.add('fas');
-      iconDate.classList.add('fa-calendar-alt');
-      iconAuthor.classList.add('fa-user-circle');
-      iconView.classList.add('fa-glasses');
-      clip.appendChild(picture);
-      clip.appendChild(title);
-      clip.appendChild(descr);
-      clipInfo.appendChild(iconAuthor);
-      clipInfo.appendChild(author);
-      clipInfo.appendChild(iconDate);
-      clipInfo.appendChild(date);
-      clipInfo.appendChild(iconView);
-      clipInfo.appendChild(views);
-      clip.appendChild(clipInfo);
-      this.clips.appendChild(clip);
+      const title = $(`<a>${this.data.title[i]}</a>`, {
+        href: this.data.url[i],
+        target: '_block',
+        rel: 'noopener noreferrer',
+      });
+      const picture = $('<img/>', {
+        src: this.data.picture[i],
+      });
+      const descr = $(`<h3>${this.data.description[i]}</h4>`);
+      const iconAuthor = $('<div/>').addClass('fas fa-user-circle');
+      const author = $(`<h4>${this.data.author[i]}</h4>`);
+      const iconDate = $('<div/>').addClass('fas fa-calendar-alt');
+      const date = $(`<h4>${this.data.date[i].slice(0, 10)}</h4>`);
+      const iconView = $('<div/>').addClass('fas fa-glasses');
+      const views = $(`<h4>${this.data.views[i]}</h4>`);
+      const clipInfo = $('<div/>')
+        .addClass('clips-contain__clip-info')
+        .append(iconAuthor, author, iconDate, date, iconView, views);
+      const clip = $('<div/>')
+        .addClass('clips-contain__clip')
+        .append(picture, title, descr, clipInfo);
+      this.clips.append(clip);
     }
   }
 
   renderPageButtons() {
-    const oldSlider = document.getElementsByClassName('slider-contain')[0];
-    if (oldSlider !== undefined) {
-      document.body.removeChild(oldSlider);
+    if ($('.slider-contain').length) {
+      $('.slider-contain').remove();
     }
-    const slider = document.createElement('div');
-    const prevPrevNumPage = document.createElement('button');
-    const prevNumPage = document.createElement('button');
-    const numPage = document.createElement('button');
-    const nextNumPage = document.createElement('button');
 
-    slider.classList.add('slider-contain');
-    numPage.classList.add('slider__current-page');
-    prevNumPage.classList.add('slider__prev-page');
-    prevPrevNumPage.classList.add('slider__prev-prev-page');
-    nextNumPage.classList.add('slider__next-page');
+    const prevPrevNumPage = $('<button/>').addClass('slider__prev-prev-page');
+    const prevNumPage = $('<button/>').addClass('slider__prev-page');
+    const numPage = $('<button>1</button>').addClass('slider__current-page');
+    const nextNumPage = $('<button>2</button>', {
+      dataNumPage: 2,
+    }).addClass('slider__next-page');
 
-    numPage.innerText = 1;
-    nextNumPage.setAttribute('data-num-page', 2);
-
-    slider.appendChild(numPage);
-    slider.appendChild(nextNumPage);
-
-    document.body.appendChild(slider);
+    const slider = $('<div/>')
+      .addClass('slider-contain')
+      .append(numPage, nextNumPage)
+      .insertAfter(this.clips);
 
     this.slider = slider;
     this.sliderBtn = {
@@ -132,23 +106,19 @@ class AppView {
     };
   }
 
-  renderError() {
-    const oldClips = document.getElementsByClassName('clips-contain')[0];
-    if (oldClips !== undefined) {
-      document.body.removeChild(oldClips);
+  static renderError() {
+    if ($('div').is('.clips-contain') !== undefined) {
+      $('.clips-contain').remove();
     }
-    const oldSlider = document.getElementsByClassName('slider-contain')[0];
-    if (oldSlider !== undefined) {
-      document.body.removeChild(oldSlider);
+    if ($('div').is('.slider-contain') !== undefined) {
+      $('.slider-contain').remove();
     }
-    const oldError = document.getElementsByClassName('error_message')[0];
-    if (oldError !== undefined) {
-      document.body.removeChild(oldError);
+    if ($('div').is('.error_message') !== undefined) {
+      $('.error_message').remove();
     }
-    const errorText = document.createElement('div');
-    errorText.innerText = 'Sorry, no results were found for your request';
-    errorText.classList.add('error_message');
-    document.body.appendChild(errorText);
+    $('<div>Sorry, no results were found for your request</div>')
+      .addClass('error_message')
+      .appendTo('body');
   }
 }
 

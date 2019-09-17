@@ -10,14 +10,17 @@ button {
   width: 30px;
   height: 30px;
   margin: 0 auto;
+  font-weight: bold;
   background: #eee;
   border: #7ca095 2px solid;
   border-radius: 20px;
   outline: none;
+  color: #7ca095;
 }
 
 button:hover {
   background: #7ca095;
+  color: #eee;
 }
 
 .search {
