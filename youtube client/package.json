@@ -27,7 +27,7 @@
   "homepage": "https://github.com/rolling-scopes-school/anastasia-zabela-2019Q1#readme",
   "dependencies": {
     "jquery": "^3.4.1",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
